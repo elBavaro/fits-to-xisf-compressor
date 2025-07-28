@@ -1,0 +1,4 @@
+numpy>=1.24.0
+astropy>=5.1
+Pillow>=9.5
+xisf @ git+https://github.com/sergio-dr/xisf.git@<commit-ish>
