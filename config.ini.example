@@ -1,0 +1,17 @@
+[settings]
+# Root folder to scan for .fits
+input_dir  = /path/to/your/fits
+# Mirror-tree output root
+output_dir = /path/to/your/fits_xisf 
+
+# Compression: zlib, lz4, lz4hc, or zstd
+codec  = zstd
+shuffle = yes
+level   = 9
+
+# App identifier in XISF metadata
+creator_app = fits_to_xisf_batch.py
+
+# Number of parallel workers for conversion
+workers = 2
+
