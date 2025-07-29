@@ -29,6 +29,11 @@ A simple Python script to recursively scan your astrophotography library, conver
 
 Make sure you have Python 3+ and pipenv installed:
 
+```bash
+# Install pipenv if you don't have it
+pip install --user pipenv
+```
+
 > **Note**: For detailed installation instructions and troubleshooting for pipenv, see the [official Pipenv installation guide](https://pipenv.pypa.io/en/latest/installation.html).
 
 ### Setup
