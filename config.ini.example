@@ -15,9 +15,7 @@ creator_app = fits_to_xisf_batch.py
 # Number of parallel workers for conversion
 workers = 2
 
-# Delete original FITS file after successful compression (yes/no)
-delete_after_compress = no
-
-# Only delete files older than X days (0 = delete immediately, -1 = never delete)
-delete_older_than_days = 7
+# Delete original FITS file after successful compression
+# -1 = never delete, 0 = delete immediately, >0 = delete if older than X days
+delete_older_than_days = -1
 

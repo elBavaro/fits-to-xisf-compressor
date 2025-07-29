@@ -68,7 +68,6 @@ def main():
     level      = sec.getint("level", 6)
     creator    = sec.get("creator_app", os.path.basename(__file__))
     workers    = sec.getint("workers", 4)
-    delete_after_compress = str2bool(sec.get("delete_after_compress", "no"))
     delete_older_than_days = sec.getint("delete_older_than_days", 7)
 
     if not os.path.isdir(input_dir):
@@ -108,13 +107,10 @@ def main():
                       f"{os.path.relpath(dst,output_dir)} ({nbytes} bytes, codec={used_codec})")
                 
                 # Delete original FITS file if configured to do so
-                if delete_after_compress:
+                if delete_older_than_days != -1:  # Only process if deletion is not disabled
                     should_delete = False
                     
-                    if delete_older_than_days == -1:
-                        # Never delete
-                        should_delete = False
-                    elif delete_older_than_days == 0:
+                    if delete_older_than_days == 0:
                         # Delete immediately
                         should_delete = True
                     else:
@@ -136,8 +132,6 @@ def main():
                     else:
                         if delete_older_than_days > 0:
                             print(f"[⏰] Skipped deletion (file too recent): {os.path.relpath(src,input_dir)}")
-                        elif delete_older_than_days == -1:
-                            print(f"[🔒] Skipped deletion (disabled): {os.path.relpath(src,input_dir)}")
                         
             except Exception as e:
                 print(f"[✗] {os.path.relpath(src,input_dir)} failed: {e}")

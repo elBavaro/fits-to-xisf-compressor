@@ -23,8 +23,7 @@ A simple Python script to recursively scan your astrophotography library, conver
 * **level**: trade CPU for size—**5–6** gives \~ 4:1 at ≳ 100 MB/s; **3** (default) is faster (≳ 200 MB/s) with \~ 3.9:1.
 * **shuffle**: `yes` for byte‑shuffling improves compression on multi‑byte scientific data.
 * **workers**: set to your number of CPU cores (logical or physical) for optimal throughput.
-* **delete_after_compress**: set to `yes` to automatically delete original FITS files after successful conversion (saves disk space, use with caution).
-* **delete_older_than_days**: only delete files older than X days (0 = delete immediately, -1 = never delete, default = 7 days).
+* **delete_older_than_days**: control file deletion after conversion (-1 = never delete, 0 = delete immediately, >0 = delete if older than X days, default = 7 days).
 
 ## Installation
 
