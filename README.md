@@ -36,7 +36,7 @@ Make sure you have Python 3+ and pipenv installed:
 1. Clone the repo:
 
    ```bash
-   git clone https://github.com/yourname/fits-to-xisf.git
+   git clone https://github.com/elBavaro/fits-to-xisf.git
    cd fits-to-xisf
    ```
 
