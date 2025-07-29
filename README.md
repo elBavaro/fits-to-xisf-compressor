@@ -37,7 +37,7 @@ Make sure you have Python 3+ and pipenv installed:
 
    ```bash
    git clone https://github.com/elBavaro/fits-to-xisf-compressor.git
-   cd fits-to-xisf
+   cd fits-to-xisf-compressor
    ```
 
 2. Copy and edit the config template:
