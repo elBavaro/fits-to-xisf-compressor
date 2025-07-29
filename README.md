@@ -28,7 +28,7 @@ A simple Python script to recursively scan your astrophotography library, conver
 1. Clone the repo:
 
    ```bash
-   git clone https://github.com/yourname/fits-to-xisf.git
+   git clone https://github.com/elBavaro/fits-to-xisf.git
    cd fits-to-xisf
    ```
 2. Copy and edit the config template:
