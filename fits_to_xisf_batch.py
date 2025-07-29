@@ -68,7 +68,7 @@ def main():
     level      = sec.getint("level", 6)
     creator    = sec.get("creator_app", os.path.basename(__file__))
     workers    = sec.getint("workers", 4)
-    delete_older_than_days = sec.getint("delete_older_than_days", 7)
+    delete_older_than_days = sec.getint("delete_older_than_days", -1)
 
     if not os.path.isdir(input_dir):
         print(f"Error: input_dir '{input_dir}' is not a folder")
