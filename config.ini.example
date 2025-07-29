@@ -15,3 +15,6 @@ creator_app = fits_to_xisf_batch.py
 # Number of parallel workers for conversion
 workers = 2
 
+# Delete original FITS file after successful compression (yes/no)
+delete_after_compress = no
+

@@ -66,6 +66,7 @@ def main():
     level      = sec.getint("level", 6)
     creator    = sec.get("creator_app", os.path.basename(__file__))
     workers    = sec.getint("workers", 4)
+    delete_after_compress = str2bool(sec.get("delete_after_compress", "no"))
 
     if not os.path.isdir(input_dir):
         print(f"Error: input_dir '{input_dir}' is not a folder")
@@ -102,6 +103,15 @@ def main():
                 nbytes, used_codec = fut.result()
                 print(f"[✓] {os.path.relpath(src,input_dir)} → "
                       f"{os.path.relpath(dst,output_dir)} ({nbytes} bytes, codec={used_codec})")
+                
+                # Delete original FITS file if configured to do so
+                if delete_after_compress:
+                    try:
+                        os.remove(src)
+                        print(f"[🗑️] Deleted original: {os.path.relpath(src,input_dir)}")
+                    except OSError as e:
+                        print(f"[⚠️] Failed to delete {os.path.relpath(src,input_dir)}: {e}")
+                        
             except Exception as e:
                 print(f"[✗] {os.path.relpath(src,input_dir)} failed: {e}")
 
