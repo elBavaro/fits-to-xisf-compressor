@@ -25,22 +25,32 @@ A simple Python script to recursively scan your astrophotography library, conver
 
 ## Installation
 
+### Prerequisites
+
+Make sure you have Python 3+ and pipenv installed:
+
+> **Note**: For detailed installation instructions and troubleshooting for pipenv, see the [official Pipenv installation guide](https://pipenv.pypa.io/en/latest/installation.html).
+
+### Setup
+
 1. Clone the repo:
 
    ```bash
    git clone https://github.com/yourname/fits-to-xisf.git
    cd fits-to-xisf
    ```
+
 2. Copy and edit the config template:
 
    ```bash
    cp config.ini.example config.ini
    # then adjust paths and settings in config.ini
    ```
-3. Install dependencies:
+
+3. Install dependencies with pipenv:
 
    ```bash
-   pip install -r requirements.txt
+   pipenv install
    ```
 
 ## Usage
@@ -48,6 +58,11 @@ A simple Python script to recursively scan your astrophotography library, conver
 Run the script without arguments (reads `config.ini`):
 
 ```bash
+# Using pipenv
+pipenv run python fits_to_xisf_batch.py
+
+# Or activate the virtual environment first
+pipenv shell
 python fits_to_xisf_batch.py
 ```
 
