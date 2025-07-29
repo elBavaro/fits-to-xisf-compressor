@@ -18,3 +18,6 @@ workers = 2
 # Delete original FITS file after successful compression (yes/no)
 delete_after_compress = no
 
+# Only delete files older than X days (0 = delete immediately, -1 = never delete)
+delete_older_than_days = 7
+

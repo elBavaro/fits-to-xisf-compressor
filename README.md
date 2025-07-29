@@ -6,7 +6,7 @@ A simple Python script to recursively scan your astrophotography library, conver
 * **Mirror‑tree layout**: input and output directories share the same subfolder structure. Non‑FITS files are simply copied over.
 * **Lossless codecs**: choose between zlib (DEFLATE), LZ4, LZ4HC (high‑compression LZ4), or Zstandard (zstd) with byte‑shuffling.
 * **Parallel conversion**: leverage multiple CPU cores via a configurable `workers` setting.
-* **Optional cleanup**: automatically delete original FITS files after successful conversion to save disk space.
+* **Optional cleanup**: automatically delete original FITS files after successful conversion to save disk space, with configurable age-based protection.
 
 ## Compression Algorithms
 
@@ -24,6 +24,7 @@ A simple Python script to recursively scan your astrophotography library, conver
 * **shuffle**: `yes` for byte‑shuffling improves compression on multi‑byte scientific data.
 * **workers**: set to your number of CPU cores (logical or physical) for optimal throughput.
 * **delete_after_compress**: set to `yes` to automatically delete original FITS files after successful conversion (saves disk space, use with caution).
+* **delete_older_than_days**: only delete files older than X days (0 = delete immediately, -1 = never delete, default = 7 days).
 
 ## Installation
 
