@@ -6,6 +6,7 @@ A simple Python script to recursively scan your astrophotography library, conver
 * **Mirror‑tree layout**: input and output directories share the same subfolder structure. Non‑FITS files are simply copied over.
 * **Lossless codecs**: choose between zlib (DEFLATE), LZ4, LZ4HC (high‑compression LZ4), or Zstandard (zstd) with byte‑shuffling.
 * **Parallel conversion**: leverage multiple CPU cores via a configurable `workers` setting.
+* **Optional cleanup**: automatically delete original FITS files after successful conversion to save disk space, with configurable age-based protection.
 
 ## Compression Algorithms
 
@@ -22,12 +23,18 @@ A simple Python script to recursively scan your astrophotography library, conver
 * **level**: trade CPU for size—**5–6** gives \~ 4:1 at ≳ 100 MB/s; **3** (default) is faster (≳ 200 MB/s) with \~ 3.9:1.
 * **shuffle**: `yes` for byte‑shuffling improves compression on multi‑byte scientific data.
 * **workers**: set to your number of CPU cores (logical or physical) for optimal throughput.
+* **delete_older_than_days**: control file deletion after conversion (-1 = never delete, 0 = delete immediately, >0 = delete if older than X days, default = 7 days).
 
 ## Installation
 
 ### Prerequisites
 
 Make sure you have Python 3+ and pipenv installed:
+
+```bash
+# Install pipenv if you don't have it
+pip install --user pipenv
+```
 
 > **Note**: For detailed installation instructions and troubleshooting for pipenv, see the [official Pipenv installation guide](https://pipenv.pypa.io/en/latest/installation.html).
 

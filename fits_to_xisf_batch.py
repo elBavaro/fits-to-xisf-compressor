@@ -3,6 +3,8 @@ import configparser
 import os
 import sys
 import shutil
+import time
+from datetime import datetime, timedelta
 from functools import partial
 from concurrent.futures import ProcessPoolExecutor, as_completed
 
@@ -67,6 +69,7 @@ def main():
     creator    = sec.get("creator_app", os.path.basename(__file__))
     workers    = sec.getint("workers", 4)
     skip_existing = str2bool(sec.get("skip_existing", "yes"))
+    delete_older_than_days = sec.getint("delete_older_than_days", -1)
 
     if not os.path.isdir(input_dir):
         print(f"Error: input_dir '{input_dir}' is not a folder")
@@ -107,6 +110,34 @@ def main():
                 nbytes, used_codec = fut.result()
                 print(f"[✓] {os.path.relpath(src,input_dir)} → "
                       f"{os.path.relpath(dst,output_dir)} ({nbytes} bytes, codec={used_codec})")
+                
+                # Delete original FITS file if configured to do so
+                if delete_older_than_days != -1:  # Only process if deletion is not disabled
+                    should_delete = False
+                    
+                    if delete_older_than_days == 0:
+                        # Delete immediately
+                        should_delete = True
+                    else:
+                        # Check file age
+                        try:
+                            file_mtime = os.path.getmtime(src)
+                            file_age_days = (time.time() - file_mtime) / (24 * 3600)
+                            should_delete = file_age_days >= delete_older_than_days
+                        except OSError as e:
+                            print(f"[⚠️] Could not check age of {os.path.relpath(src,input_dir)}: {e}")
+                            should_delete = False
+                    
+                    if should_delete:
+                        try:
+                            os.remove(src)
+                            print(f"[🗑️] Deleted original: {os.path.relpath(src,input_dir)}")
+                        except OSError as e:
+                            print(f"[⚠️] Failed to delete {os.path.relpath(src,input_dir)}: {e}")
+                    else:
+                        if delete_older_than_days > 0:
+                            print(f"[⏰] Skipped deletion (file too recent): {os.path.relpath(src,input_dir)}")
+                        
             except Exception as e:
                 print(f"[✗] {os.path.relpath(src,input_dir)} failed: {e}")
 
