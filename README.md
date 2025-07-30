@@ -43,8 +43,8 @@ pip install --user pipenv
 1. Clone the repo:
 
    ```bash
-   git clone https://github.com/yourname/fits-to-xisf.git
-   cd fits-to-xisf
+   git clone https://github.com/elBavaro/fits-to-xisf-compressor.git
+   cd fits-to-xisf-compressor
    ```
 
 2. Copy and edit the config template:

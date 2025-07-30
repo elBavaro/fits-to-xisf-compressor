@@ -68,6 +68,7 @@ def main():
     level      = sec.getint("level", 6)
     creator    = sec.get("creator_app", os.path.basename(__file__))
     workers    = sec.getint("workers", 4)
+    skip_existing = str2bool(sec.get("skip_existing", "yes"))
     delete_older_than_days = sec.getint("delete_older_than_days", -1)
 
     if not os.path.isdir(input_dir):
@@ -87,6 +88,10 @@ def main():
             src = os.path.join(root, fn)
             if fn.lower().endswith(".fits"):
                 dst = os.path.splitext(os.path.join(dest_root, fn))[0] + ".xisf"
+                # Skip conversion if XISF file already exists
+                if os.path.exists(dst) and skip_existing:
+                    print(f"[⏭] Skipping {os.path.relpath(src,input_dir)} - XISF file already exists")
+                    continue
                 fits_tasks.append((src, dst))
             else:
                 # copy everything else

@@ -15,6 +15,9 @@ creator_app = fits_to_xisf_batch.py
 # Number of parallel workers for conversion
 workers = 2
 
+# Skip conversion if XISF file already exists (yes/no)
+skip_existing = yes
+
 # Delete original FITS file after successful compression
 # -1 = never delete, 0 = delete immediately, >0 = delete if older than X days
 delete_older_than_days = -1
