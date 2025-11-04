@@ -18,3 +18,7 @@ workers = 2
 # Skip conversion if XISF file already exists (yes/no)
 skip_existing = yes
 
+# Delete source FITS files older than X days from input_dir (after conversion)
+# Set to -1 to keep all files (no deletion)
+# Set to a positive number to delete FITS files older than that many days
+delete_older_than_days = -1

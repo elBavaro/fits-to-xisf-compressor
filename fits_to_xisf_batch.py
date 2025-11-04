@@ -5,6 +5,7 @@ import sys
 import shutil
 from functools import partial
 from concurrent.futures import ProcessPoolExecutor, as_completed
+from datetime import datetime, timedelta
 
 import numpy as np
 from astropy.io import fits
@@ -52,6 +53,33 @@ def convert_fits_to_xisf(fits_path, xisf_path, codec, shuffle, level, creator_ap
 def str2bool(s):
     return str(s).lower() in ('1','yes','true','on')
 
+def delete_old_fits_files(input_dir, days):
+    """
+    Delete FITS files in input_dir (recursively) that are older than 'days' days.
+    """
+    if days <= 0:
+        return  # No deletion if days <= 0
+    
+    cutoff = datetime.now() - timedelta(days=days)
+    deleted_count = 0
+    
+    for root, dirs, files in os.walk(input_dir):
+        for fn in files:
+            if fn.lower().endswith(".fits"):
+                filepath = os.path.join(root, fn)
+                try:
+                    # Get file modification time
+                    mtime = datetime.fromtimestamp(os.path.getmtime(filepath))
+                    if mtime < cutoff:
+                        os.remove(filepath)
+                        print(f"[🗑] Deleted old FITS file: {os.path.relpath(filepath, input_dir)} (modified: {mtime.strftime('%Y-%m-%d %H:%M:%S')})")
+                        deleted_count += 1
+                except Exception as e:
+                    print(f"[✗] Failed to delete {filepath}: {e}")
+    
+    if deleted_count > 0:
+        print(f"Deleted {deleted_count} FITS file(s) older than {days} days from input directory")
+
 def main():
     # Read config.ini next to this script
     base_dir = os.path.dirname(__file__)
@@ -67,6 +95,7 @@ def main():
     creator    = sec.get("creator_app", os.path.basename(__file__))
     workers    = sec.getint("workers", 4)
     skip_existing = str2bool(sec.get("skip_existing", "yes"))
+    delete_older_than_days = sec.getint("delete_older_than_days", -1)
 
     if not os.path.isdir(input_dir):
         print(f"Error: input_dir '{input_dir}' is not a folder")
@@ -109,6 +138,11 @@ def main():
                       f"{os.path.relpath(dst,output_dir)} ({nbytes} bytes, codec={used_codec})")
             except Exception as e:
                 print(f"[✗] {os.path.relpath(src,input_dir)} failed: {e}")
+    
+    # Delete old FITS files if configured (after conversion is complete)
+    if delete_older_than_days > 0:
+        print(f"\nChecking for FITS files older than {delete_older_than_days} days in input directory...")
+        delete_old_fits_files(input_dir, delete_older_than_days)
 
 if __name__ == "__main__":
     main()
